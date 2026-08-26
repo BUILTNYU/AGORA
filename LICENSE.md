@@ -11,7 +11,7 @@ to modify this software are granted; and 4) no rights to assign this license are
 the NYU Office of Industrial Liaison at +1 (212) 263-8178 for commercial licensing opportunities, or for further
 distribution, modification or license rights.
 
-Created by Bingqing Liu and Joseph Y. J. Chow.
+Created by Joseph Y. J. Chow.
 
 IN NO EVENT SHALL NYU, OR THEIR EMPLOYEES, OFFICERS, AGENTS OR TRUSTEES
 ("COLLECTIVELY "NYU PARTIES") BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL,
@@ -28,5 +28,5 @@ IF ANY, PROVIDED HEREUNDER IS PROVIDED COMPLETELY "AS IS". NYU HAS NO OBLIGATION
 FURTHER DOCUMENTATION, MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 If you use this resource, cite:
-Liu, B., Pantelidis, T. P., Tam, S., \& Chow, J. Y. (2023). An electric vehicle charging station access equilibrium model with M/D/C queueing. International Journal of Sustainable Transportation, 17(3), 228-244.
+Chow, J. Y. J. (2026). On inverse aggregate network assignment games, working paper.
 
