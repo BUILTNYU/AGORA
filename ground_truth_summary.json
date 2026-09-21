@@ -1,0 +1,28 @@
+{
+ "generator": "Algorithm 3' (fixed price at tau^0, usage-based revenue)",
+ "alpha_B": 1.0,
+ "alpha_S": 4.0,
+ "c_idle": {
+  "LIRR": 0.27,
+  "LOCAL": 0.72
+ },
+ "fare_decomposition": "rail tau^0 redistributed at $0.3691/mi; total revenue preserved",
+ "n_links": 8320,
+ "n_owned": 2275,
+ "n_segments": 6,
+ "n_cells_available": 29455,
+ "n_cells_positive": 4722,
+ "sparsity": 0.8397,
+ "boardings": 71168.9,
+ "outside": 183229.4,
+ "rail_share": 0.2798,
+ "rail_share_target": 0.2836,
+ "n_sigma_positive": 127,
+ "sigma_max": 7.7435,
+ "max_capacity_violation": 0.000573,
+ "idle_stock": {
+  "LIRR": 5137.6,
+  "LOCAL": 0.8
+ },
+ "conservation_residual_pax": 0.000727
+}

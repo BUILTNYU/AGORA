@@ -1,0 +1,4 @@
+operator,n_links,pax_trips,pax_miles,capacity_seat_miles,capacity_budget_usd,provision_cost_usd,fare_revenue_usd
+LIRR,225,962140.8,2252052.5,7723936.9,1261526.65,28063.07,1012226.82
+LOCAL,2050,17611.9,38403.6,97654.7,29296.4,2943.42,49412.73
+NONE,6045,308897.0,6486323.6,0.0,0.0,0.0,0.0

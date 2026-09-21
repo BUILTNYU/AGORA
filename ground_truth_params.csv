@@ -1,0 +1,12 @@
+parameter,value,block,units
+time_RAIL,-0.367,time,$/min
+time_ACCESS_DRIVE,-0.367,time,$/min
+time_ACCESS_TRANSIT,-0.367,time,$/min
+time_EGRESS,-0.367,time,$/min
+time_OUTSIDE,-0.367,time,$/min
+nonfare_money,-1.0,money,$
+drive_constant,5.902792,modal_constant,$
+alpha_B,1.0,scale,
+alpha_S,4.0,scale,
+c_idle_LIRR,0.27,idle_cost,$/unit
+c_idle_LOCAL,0.72,idle_cost,$/unit
