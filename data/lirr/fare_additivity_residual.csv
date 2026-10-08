@@ -1,0 +1,11 @@
+quantity,value
+schedule,"MTA LIRR peak one-way, effective 2026-01-04"
+terminal_charge_usd,8.64359
+per_mile_rate_usd,0.233404
+terminal_links,RAIL_S006_S005_ATLA RAIL_S008_S001_CITY RAIL_S008_S001_PORT RAIL_S008_S002_GCM
+flow_share_paths_err_gt_1c,0.979092
+weighted_rmse_usd,0.70108
+weighted_mae_usd,0.54203
+weighted_r2,0.936555
+mean_path_fare_usd,15.8825
+n_rail_paths,24156

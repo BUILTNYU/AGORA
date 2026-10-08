@@ -1,0 +1,37 @@
+{
+ "generator": "Algorithm 2' (fixed price at tau^0, usage-based revenue)",
+ "fare_schedule": "MTA LIRR peak one-way, effective 2026-01-04",
+ "alpha_B": 1.0,
+ "alpha_S": {
+  "LIRR": 0.25,
+  "LOCAL": 4.0,
+  "PARK": 4.0
+ },
+ "c_idle": {
+  "LIRR": 0.27,
+  "LOCAL": 0.72,
+  "PARK": 0.27
+ },
+ "n_services": 2631,
+ "n_links": 8320,
+ "n_owned": 2275,
+ "n_segments": 6,
+ "n_cells_available": 29455,
+ "n_cells_positive": 4673,
+ "sparsity": 0.8414,
+ "boardings": 71929.7,
+ "outside": 182468.7,
+ "rail_share": 0.2827,
+ "rail_share_target": 0.2835,
+ "station_fit_wmape": 0.1337,
+ "station_fit_corr": 0.9666,
+ "n_sigma_positive": 59,
+ "sigma_max": 2.8814,
+ "max_capacity_violation": 0.000514,
+ "idle_stock": {
+  "LIRR": 2210.7,
+  "LOCAL": 6.6,
+  "PARK": 1368.7
+ },
+ "solver_residual": 9.356691973020313e-07
+}

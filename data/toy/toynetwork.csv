@@ -1,0 +1,51 @@
+"# Toy network inputs, Fig. 1. Sectioned CSV: each block starts with"
+"# a '# SECTION: <name>' line, then a header row, then data rows."
+# Blank line ends a block. Read a block with e.g.
+#   import pandas as pd
+#   lines = open('toynetwork.csv').read().splitlines()
+#   i = lines.index('# SECTION: LINKS')
+"#   n = next(k for k in range(i+2, len(lines)) if not lines[k].strip())"
+"#   df = pd.read_csv('toynetwork.csv', skiprows=i+1, nrows=n-i-2)"
+
+# SECTION: SCALARS
+parameter,value,units,note
+alpha_B,1.0,1/$,"buyer logit scale (Shannon entropy, P1)"
+alpha_S,0.8,1/$,seller logit scale
+theta_d,1.2,$/mi,distance coefficient
+theta_IVT,-0.25,$/min,in-vehicle time; VOT_IVT = $15/hr
+theta_OVT,-0.5,$/min,out-of-vehicle time; VOT_OVT = $30/hr
+n_nodes,3,count,"node 1 suburb, node 2 hub, node 3 downtown"
+
+# SECTION: OPERATORS
+operator,F_m,c_idle_m,owns_links,description
+BLUE,1200.0,0.0,l1;l2,"commuter bus, large fleet"
+RED,250.0,0.0,l3;l4,"on-demand, small fleet, more efficient"
+
+# SECTION: LINKS
+link,tail_node,head_node,owner,in_A0,d_a_feature_mi,IVT_min,OVT_min,phi_a,ell_a,Cmax_ma,c_ma,tau0_ma
+l1,1,2,BLUE,0,8.0,20.0,5.0,2.1,8.0,900.0,1.4,2.75
+l2,2,3,BLUE,0,10.0,25.0,5.0,3.25,10.0,900.0,1.7,2.75
+l3,1,2,RED,0,8.0,12.0,2.0,5.6,8.0,200.0,0.8,3.5
+l4,1,3,RED,0,18.0,30.0,2.0,13.1,18.0,150.0,1.5,6.0
+l5,1,2,,1,0.0,0.0,0.0,0.0,8.0,,,
+l6,2,3,,1,0.0,0.0,0.0,0.0,10.0,,,
+l7,1,3,,1,0.0,0.0,0.0,0.0,18.0,,,
+
+# SECTION: SEGMENTS
+segment,od_label,origin_node,sink_node,D_i,outside_link,paths_P1,avail_links_P2
+1,"OD(1,2)",1,2,400.0,l5,l1|l3,l1;l3;l5
+2,"OD(2,3)",2,3,600.0,l6,l2,l2;l6
+3,"OD(1,3)",1,3,800.0,l7,"l4|l1,l2|l3,l2",l1;l2;l3;l4;l7
+
+# SECTION: NOTES
+item,note
+source,"All values from Fig. 1 of the draft (Chow, 2026), Section 4 toy example."
+phi_a,"Computed, not independently given: phi_a = theta^T z_a with z_a = (d_a_feature, IVT, OVT). Matches the phi_a column of Fig. 1 exactly."
+d_a_feature_mi,"RELATIVE feature, as Fig. 1 states ('feature values are relative to the other options'), hence 0 on l5-l7. Do not use as a length."
+ell_a,"INFERRED, not stated in the draft. Section 4 never gives the length weights l_a of the quadratic perturbation. Backed out of Fig. 4 via Remark 8 (u_{i,o_i} = -(l_a/alpha_B) f_{i,a_i0}/D_i), giving 7.99, 9.99, 18.01 on l5, l6, l7 -> l_a = physical link distance. Note this differs from d_a_feature_mi on the outside links, where the relative feature is 0 but the physical length is that of the parallel owned link."
+avail_links_P2,"INFERRED. The P2 notation block defines no per-segment link availability, but Fig. 4 requires one: l5 carries 189.24 and l6 carries 305.09, which are segments 1 and 2 alone. Set here to mirror the P1 path sets. Without it segment 3 also loads l5 and l6 and the solution changes."
+paths_P1,"Interior paths only, '|' between paths and ',' between links within a path. The outside path (the outside_link column) is handled analytically as the null alternative and is not listed here."
+c_idle_m,"Set to 0, following the notation block's c_m0 = 0. Eq. (34) carries a general c_idle,m; the two are inconsistent in the draft, so this is the choice made, not a value the draft supplies."
+tau0_ma,Administered/suboptimal fares used for Algorithms 1' and 3' and to generate the IO1/IO2 ground truth. Not the clearing prices.
+Assumption 1,"Satisfied strictly: F_BLUE = 1200 < 1800 = 900+900, F_RED = 250 < 350 = 200+150."
+reproduces,"Algorithm 1: D* = -13391.852, gross = $3454.16. Algorithm 3: D'* = -10038.820, gross = $3472.44."

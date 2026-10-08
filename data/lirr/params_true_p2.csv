@@ -1,0 +1,105 @@
+parameter,value
+time_RAIL,-0.367
+time_ACCESS_DRIVE,-0.367
+time_ACCESS_TRANSIT,-0.367
+time_EGRESS,-0.367
+time_OUTSIDE,-0.367
+nonfare_money,-1.0
+asc_Albertson,-1.877411
+asc_Amagansett,-13.528989
+asc_Amityville,-5.365267
+asc_Babylon,-3.636934
+asc_Baldwin,-5.57228
+asc_Bay Shore,-7.005015
+asc_Bellerose,-5.482938
+asc_Bellmore,-2.54435
+asc_Bellport,-9.161199
+asc_Bethpage,-2.362269
+asc_Brentwood,-4.421977
+asc_Bridgehampton,-13.168218
+asc_Carle Place,-3.976295
+asc_Cedarhurst,-1.299954
+asc_Central Islip,-4.663687
+asc_Centre Avenue,-6.457007
+asc_Cold Spring Harbor,-1.145691
+asc_Copiague,-5.095599
+asc_Country Life Press,-5.909817
+asc_Deer Park,-2.874839
+asc_East Hampton,-13.263535
+asc_East Rockaway,-6.306341
+asc_East Williston,-2.582979
+asc_Farmingdale,-2.514093
+asc_Floral Park,-4.68139
+asc_Freeport,-4.642496
+asc_Garden City,-5.708143
+asc_Gibson,-5.310308
+asc_Glen Cove,4.69508
+asc_Glen Head,1.985855
+asc_Glen Street,4.655605
+asc_Great Neck,-3.005544
+asc_Great River,-7.202205
+asc_Greenlawn,-1.780145
+asc_Greenport,-16.234197
+asc_Greenvale,0.59722
+asc_Hampton Bays,-11.302782
+asc_Hempstead,-5.234685
+asc_Hempstead Gardens,-4.708001
+asc_Hewlett,-4.054216
+asc_Hicksville,-1.605226
+asc_Huntington,-0.386944
+asc_Inwood,0.350046
+asc_Island Park,-2.718351
+asc_Islip,-6.362655
+asc_Kings Park,-3.031748
+asc_Lakeview,-5.408284
+asc_Lawrence,-1.113402
+asc_Lindenhurst,-5.327619
+asc_Locust Valley,5.347215
+asc_Long Beach,-1.644317
+asc_Lynbrook,-6.440406
+asc_Malverne,-7.091407
+asc_Manhasset,-1.265223
+asc_Massapequa,-3.56791
+asc_Massapequa Park,-4.314484
+asc_Mastic-Shirley,-8.620557
+asc_Mattituck,-8.85304
+asc_Medford,-5.705166
+asc_Merillon Avenue,-2.856549
+asc_Merrick,-3.218326
+asc_Mineola,-1.008991
+asc_Montauk,-14.275954
+asc_Nassau Boulevard,-5.29839
+asc_New Hyde Park,-3.641973
+asc_Northport,-2.718001
+asc_Oakdale,-7.626956
+asc_Oceanside,-5.861388
+asc_Oyster Bay,3.991028
+asc_Patchogue,-8.08375
+asc_Pinelawn,-8.357985
+asc_Plandome,-0.220925
+asc_Port Jefferson,-2.608365
+asc_Port Washington,0.941399
+asc_Riverhead,-8.409874
+asc_Rockville Centre,-5.617378
+asc_Ronkonkoma,-2.419331
+asc_Roslyn,0.289366
+asc_Sayville,-7.196339
+asc_Sea Cliff,4.498021
+asc_Seaford,-3.591129
+asc_Smithtown,-3.460889
+asc_Southampton,-12.618552
+asc_Southold,-8.531412
+asc_Speonk,-10.60265
+asc_St. James,-3.79524
+asc_Stewart Manor,-4.637936
+asc_Stony Brook,-1.96008
+asc_Syosset,0.152469
+asc_Valley Stream,-5.922883
+asc_Wantagh,-3.545243
+asc_West Hempstead,-4.709056
+asc_Westbury,-3.555422
+asc_Westhampton,-10.488651
+asc_Westwood,-5.841301
+asc_Woodmere,-3.188571
+asc_Wyandanch,-3.121883
+drive_constant,5.53596

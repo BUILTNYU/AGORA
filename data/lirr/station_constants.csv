@@ -1,0 +1,98 @@
+station,node_id,county,target,fitted,asc_usd
+Albertson,S115,Nassau,159.0,180.1,-1.8774
+Amagansett,S083,Suffolk,4.1,4.9,-13.529
+Amityville,S065,Suffolk,548.2,536.3,-5.3653
+Babylon,S068,Suffolk,2404.0,2385.2,-3.6369
+Baldwin,S057,Nassau,2010.7,2048.9,-5.5723
+Bay Shore,S069,Suffolk,392.5,433.6,-7.005
+Bellerose,S049,Nassau,388.4,452.3,-5.4829
+Bellmore,S060,Nassau,2176.3,2034.4,-2.5444
+Bellport,S075,Suffolk,14.9,17.3,-9.1612
+Bethpage,S091,Nassau,1108.0,984.9,-2.3623
+Brentwood,S096,Suffolk,675.7,667.5,-4.422
+Bridgehampton,S081,Suffolk,9.9,12.0,-13.1682
+Carle Place,S088,Nassau,247.6,281.6,-3.9763
+Cedarhurst,S032,Nassau,363.5,434.2,-1.3
+Central Islip,S097,Suffolk,1022.7,1168.4,-4.6637
+Centre Avenue,S037,Nassau,314.7,346.1,-6.457
+Cold Spring Harbor,S105,Suffolk,1018.6,1058.4,-1.1457
+Copiague,S066,Suffolk,678.2,681.7,-5.0956
+Country Life Press,S054,Nassau,237.7,269.3,-5.9098
+Deer Park,S095,Suffolk,1745.7,1832.8,-2.8748
+East Hampton,S082,Suffolk,12.4,14.9,-13.2635
+East Rockaway,S038,Nassau,326.3,369.1,-6.3063
+East Williston,S114,Nassau,208.7,240.7,-2.583
+Farmingdale,S092,Nassau,791.7,692.2,-2.5141
+Floral Park,S050,Nassau,901.0,1034.6,-4.6814
+Freeport,S058,Nassau,1132.9,1147.7,-4.6425
+Garden City,S053,Nassau,337.9,383.2,-5.7081
+Gibson,S029,Nassau,385.9,434.2,-5.3103
+Glen Cove,S121,Nassau,122.6,165.2,4.6951
+Glen Head,S118,Nassau,216.1,241.4,1.9859
+Glen Street,S120,Nassau,136.6,184.5,4.6556
+Great Neck,S020,Nassau,2409.0,2323.4,-3.0055
+Great River,S071,Suffolk,86.1,98.2,-7.2022
+Greenlawn,S107,Suffolk,336.2,332.2,-1.7801
+Greenport,S103,Suffolk,0.0,0.0,-16.2342
+Greenvale,S117,Nassau,54.7,62.7,0.5972
+Hampton Bays,S079,Suffolk,19.0,22.8,-11.3028
+Hempstead,S055,Nassau,426.5,484.6,-5.2347
+Hempstead Gardens,S045,Nassau,130.0,250.5,-4.708
+Hewlett,S030,Nassau,547.4,480.6,-4.0542
+Hicksville,S090,Nassau,4847.8,4650.0,-1.6052
+Huntington,S106,Suffolk,3084.7,2938.9,-0.3869
+Inwood,S034,Nassau,213.7,224.4,0.35
+Island Park,S040,Nassau,593.8,624.5,-2.7184
+Islip,S070,Suffolk,313.9,295.5,-6.3627
+Kings Park,S109,Suffolk,524.2,539.2,-3.0317
+Lakeview,S044,Nassau,202.1,379.8,-5.4083
+Lawrence,S033,Nassau,178.0,214.1,-1.1134
+Lindenhurst,S067,Suffolk,875.3,948.8,-5.3276
+Locust Valley,S122,Nassau,166.5,186.1,5.3472
+Long Beach,S041,Nassau,1307.6,1374.4,-1.6443
+Lynbrook,S036,Nassau,1065.0,1172.9,-6.4404
+Malverne,S043,Nassau,299.8,348.7,-7.0914
+Manhasset,S021,Nassau,1527.1,1414.8,-1.2652
+Massapequa,S063,Nassau,1438.4,1332.4,-3.5679
+Massapequa Park,S064,Nassau,1147.8,1110.3,-4.3145
+Mastic-Shirley,S076,Suffolk,165.6,184.9,-8.6206
+Mattituck,S101,Suffolk,6.6,5.8,-8.853
+Medford,S099,Suffolk,8.3,7.3,-5.7052
+Merillon Avenue,S086,Nassau,526.7,586.3,-2.8565
+Merrick,S059,Nassau,2250.8,2046.0,-3.2183
+Mineola,S087,Nassau,2516.7,2623.0,-1.009
+Montauk,S084,Suffolk,4.1,4.9,-14.276
+Nassau Boulevard,S052,Nassau,424.8,489.3,-5.2984
+New Hyde Park,S085,Nassau,1103.9,1256.6,-3.642
+Northport,S108,Suffolk,790.0,808.7,-2.718
+Oakdale,S072,Suffolk,115.1,131.3,-7.627
+Oceanside,S039,Nassau,839.7,896.8,-5.8614
+Oyster Bay,S123,Nassau,38.9,44.2,3.991
+Patchogue,S074,Suffolk,240.2,273.0,-8.0837
+Pinelawn,S093,Suffolk,0.0,0.0,-8.358
+Plandome,S022,Nassau,402.5,372.9,-0.2209
+Port Jefferson,S113,Suffolk,359.4,389.6,-2.6084
+Port Washington,S023,Nassau,2206.1,2043.9,0.9414
+Riverhead,S100,Suffolk,16.6,43.1,-8.4099
+Rockville Centre,S056,Nassau,1994.9,2211.4,-5.6174
+Ronkonkoma,S098,Suffolk,4562.9,2836.5,-2.4193
+Roslyn,S116,Nassau,291.5,339.3,0.2894
+Sayville,S073,Suffolk,313.9,348.2,-7.1963
+Sea Cliff,S119,Nassau,157.3,177.1,4.498
+Seaford,S062,Nassau,1186.7,1116.5,-3.5911
+Smithtown,S110,Suffolk,254.2,268.4,-3.4609
+Southampton,S080,Suffolk,5.8,6.9,-12.6186
+Southold,S102,Suffolk,3.3,3.5,-8.5314
+Speonk,S077,Suffolk,40.6,48.8,-10.6026
+St. James,S111,Suffolk,249.3,265.5,-3.7952
+Stewart Manor,S051,Nassau,559.8,639.1,-4.6379
+Stony Brook,S112,Suffolk,337.9,303.9,-1.9601
+Syosset,S104,Nassau,1771.3,1730.1,0.1525
+Valley Stream,S028,Nassau,1812.8,2045.7,-5.9229
+Wantagh,S061,Nassau,1729.9,1629.6,-3.5452
+West Hempstead,S046,Nassau,95.2,228.6,-4.7091
+Westbury,S089,Nassau,951.5,1068.2,-3.5554
+Westhampton,S078,Suffolk,1.7,2.0,-10.4887
+Westwood,S042,Nassau,201.2,232.8,-5.8413
+Woodmere,S031,Nassau,523.4,595.5,-3.1886
+Wyandanch,S094,Suffolk,1181.7,1193.3,-3.1219
