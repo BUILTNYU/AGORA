@@ -1,24 +1,23 @@
 # AGORA: Aggregate Game Of Route Assignment
 
-AGORA is the reference implementation for Chow (2026), *Inverse Aggregate Network Assignment Game*. In the game, travelers (buyers) assign their trips over a network, and operators (sellers) choose capacity and prices on it. AGORA has three codes:
+AGORA is the reference implementation for Chow (2026), *Inverse Aggregate Network Assignment Game*. In the game, travelers (buyers) assign their trips over a network, and operators (sellers) choose capacity and prices on it. AGORA has two codes:
 
-| Code | What it does | Where |
-|---|---|---|
-| **AGORA-F** (Forward) | Solves the game: flows, capacities and clearing prices. Algorithms 1, 2 and 2′. | `code/` |
-| **AGORA-I** (Inverse) | Estimates the hidden parameters (α_S, c_idle, station constants) from observed data. The IO1 blocks. | `code/`, `pipeline/` |
-| **AGORA-Q** (QP) | The single-buyer quadratic program. Algorithm 3. | `qp_sweep_svc/` |
+| Code | Paper | What it does | Where |
+|---|---|---|---|
+| **AGORA-F** (Forward) | Algorithms 1, 2 and 2′ | Solves the game for flows, capacities and prices. Algorithm 1 is the L-BFGS-B dual solution of the path-flow formulation P1. Algorithm 2 is the L-BFGS-B dual solution of the PURC-based link formulation P2, which gives the clearing prices τ*. Algorithm 2′ solves P2 at fixed (observed) prices τ⁰. | `code/algorithm1_p1.py`, `code/algorithm2_p2.py`, `code/algorithm2prime_p2.py` |
+| **AGORA-I** (Inverse) | Algorithm 3 | Solves the inverse problem IO1: estimates the model primitives from sampled flows, deployed capacities and observed fares with a seller QP and a buyer QP, then calls AGORA-F (Algorithm 2′ at τ⁰, and Algorithm 2 for τ* and the wedge τ⁰ − τ*). | `qp_sweep_svc/run_qp_sweep.py`, which uses the sampling design and seller block in `code/algorithm3*.py` |
 
 The LIRR instance now uses **service-based capacity**: LIRR seats are deployed on train services, and the instance has **two supply scales**. Every LIRR result must be rerun on this instance. It supersedes `angag_release_2026.zip` (the 1.6× link-capacity instance) and `angag_release.zip`.
 
 ```
-code/          AGORA-F (Algorithms 1, 2, 2'), AGORA-I (the IO1 blocks), the LIRR harness (lirr_bench.py), verify_toy.py
-qp_sweep_svc/  AGORA-Q (Algorithm 3, run from run_qp_sweep.py; see the README there)
+code/          AGORA-F (Algorithms 1, 2, 2'), the AGORA-I modules algorithm3*.py, the LIRR harness (lirr_bench.py), verify_toy.py
+qp_sweep_svc/  AGORA-I (Algorithm 3, run from run_qp_sweep.py; see the README there)
 data/toy/      the three-node toy network of Section 4.1 (unchanged)
 data/lirr/     the LIRR access network instance of Section 4.2 (rebuilt)
 pipeline/      the instance-construction pipeline (see pipeline/README.md)
 ```
 
-Requirements: Python 3.10+, numpy, scipy and pandas. AGORA-Q also needs cvxpy with CLARABEL.
+Requirements: Python 3.10+, numpy, scipy and pandas. AGORA-I's QPs also need cvxpy with CLARABEL.
 
 ## What changed from `angag_release_2026`
 
@@ -30,7 +29,7 @@ Requirements: Python 3.10+, numpy, scipy and pandas. AGORA-Q also needs cvxpy wi
 
 Each service's margin is the sum of its link margins: ω_r = Σ_a H_ar (τ_a − c_a − κ_a) − π_r. Shared links carry a track cap, (HY)_a ≤ C^max_a, with multiplier κ_a.
 
-The service form is implemented throughout: in AGORA-F (Algorithm 2's dual, and Algorithm 2′'s seller step, with an inner dual over κ when there are track caps) and in AGORA-I's IO1 seller block. With `H` omitted, H = I and the code is the link model. The toy network uses H = I, and `verify_toy.py` reproduces 13 of 13 values.
+The service form is implemented throughout: in AGORA-F (Algorithm 2's dual, and Algorithm 2′'s seller step, with an inner dual over κ when there are track caps) and in AGORA-I's seller block (step 2 of Algorithm 3). With `H` omitted, H = I and the code is the link model. The toy network uses H = I, and `verify_toy.py` reproduces 13 of 13 values.
 
 **Why.** In the link model the operator ranks links by their own fare margin. A short trunk link shared by every Main Line rider then earns a tiny link fare, so it is starved of capacity. At the timetabled budget this rationed the trunk and cut rail ridership to 40k. The 1.6× budget of `angag_release_2026` papered over this.
 
