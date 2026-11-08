@@ -5,19 +5,22 @@ AGORA is the reference implementation for Chow (2026), *Inverse Aggregate Networ
 | Code | Paper | What it does | Where |
 |---|---|---|---|
 | **AGORA-F** (Forward) | Algorithms 1, 2 and 2′ | Solves the game for flows, capacities and prices. Algorithm 1 is the L-BFGS-B dual solution of the path-flow formulation P1. Algorithm 2 is the L-BFGS-B dual solution of the PURC-based link formulation P2, which gives the clearing prices τ*. Algorithm 2′ solves P2 at fixed (observed) prices τ⁰. | `code/algorithm1_p1.py`, `code/algorithm2_p2.py`, `code/algorithm2prime_p2.py` |
-| **AGORA-I** (Inverse) | Algorithm 3 | Solves the inverse problem IO1: estimates the model primitives from sampled flows, deployed capacities and observed fares with a seller QP and a buyer QP, then calls AGORA-F (Algorithm 2′ at τ⁰, and Algorithm 2 for τ* and the wedge τ⁰ − τ*). | `qp_sweep_svc/run_qp_sweep.py`, which uses the sampling design and seller block in `code/algorithm3*.py` |
+| **AGORA-I** (Inverse) | Algorithm 3 | Solves the inverse problem IO1: estimates the model primitives from sampled flows, deployed capacities and observed fares with a seller QP and a buyer QP, then calls AGORA-F (Algorithm 2′ at τ⁰, and Algorithm 2 for τ* and the wedge τ⁰ − τ*). | `qp/run_qp_sweep.py`, which uses the sampling design and seller block in `code/algorithm3*.py` |
 
 The LIRR instance now uses **service-based capacity**: LIRR seats are deployed on train services, and the instance has **two supply scales**. Every LIRR result must be rerun on this instance. It supersedes `angag_release_2026.zip` (the 1.6× link-capacity instance) and `angag_release.zip`.
 
 ```
-code/          AGORA-F (Algorithms 1, 2, 2'), the AGORA-I modules algorithm3*.py, the LIRR harness (lirr_bench.py), verify_toy.py
-qp_sweep_svc/  AGORA-I (Algorithm 3, run from run_qp_sweep.py; see the README there)
-data/toy/      the three-node toy network of Section 4.1 (unchanged)
-data/lirr/     the LIRR access network instance of Section 4.2 (rebuilt)
-pipeline/      the instance-construction pipeline (see pipeline/README.md)
+code/       AGORA-F (Algorithms 1, 2, 2'); the seller block and the cycle-projection arm used by AGORA-I (algorithm3*.py);
+            the LIRR harness (lirr_bench.py), verify_toy.py
+qp/         AGORA-I (Algorithm 3, the single buyer QP), the ablation driver and the summaries; see qp/README.md
+data/toy/   the three-node toy network of Section 4.1 (unchanged)
+data/lirr/  the LIRR access network instance of Section 4.2 (rebuilt)
+pipeline/   the instance-construction pipeline (see pipeline/README.md)
 ```
 
-Requirements: Python 3.10+, numpy, scipy and pandas. AGORA-I's QPs also need cvxpy with CLARABEL.
+`MAPPING.md` maps the paper's algorithms and the steps of Algorithm 3 to modules.
+
+Requirements: Python 3.10+, numpy, scipy, pandas, cvxpy and clarabel (`pip install -r requirements.txt`).
 
 ## What changed from `angag_release_2026`
 
