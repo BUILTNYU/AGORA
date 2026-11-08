@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """Nested bundle sensor design for the LIRR instance.
 
-A link contributes to IO2 only by closing a cycle in the observed active
+A link contributes to IO1 only by closing a cycle in the observed active
 subgraph, and a cycle only adds information if it is independent of those
 already present, so scattering sensors across unrelated links buys rows
 without buying rank.  Instrumenting a whole tract -- its access links, the
 parking links they feed, and its outside links -- keeps each alternative-route
-comparison intact, which is the variation the rank condition of Algorithm 4
-step 4 requires.
+comparison intact, which is the variation the rank condition of the
+cycle-projection estimator (algorithm3_blocks.py, step 4) requires.
 
 Tracts are drawn without replacement with probability proportional to
 (access flow)^alpha.  alpha = 1 is strictly volume-proportional and

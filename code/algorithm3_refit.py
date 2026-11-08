@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 """Shared re-estimation at the scheduled inactive-cell weight.
 
-Step 6 of the revised Algorithm 3 adds a squared hinge on the potential-free
+Step 6 of the revised cycle-projection estimator (not the paper's Algorithm 3,
+which is qp/run_qp_sweep.py) adds a squared hinge on the potential-free
 inactive-cell inequalities of algorithm3_inactive.py, with weight theta_V. The weight
 was selected per sampling rate on the validation link set; SCHEDULE records the
 result. Both the step-7 pass (run_steps_7_8.py) and the step-9 pass

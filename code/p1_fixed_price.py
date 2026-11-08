@@ -1,6 +1,8 @@
 """
-Algorithm 1' - Solution to the aggregate network assignment game P1 with
-fixed (administered) prices tau0.
+Fixed-price solver for P1 ("Algorithm 1'" in earlier drafts; the current draft
+has no such algorithm). Solution to the aggregate network assignment game P1
+with fixed (administered) prices tau0. algorithm2prime_p2.py imports helpers
+from it.
 
 At an administered fare tau0 the market need not clear, so the link capacity
 constraint Eq. (22) is carried explicitly rather than dualized. Travelers face
@@ -30,8 +32,9 @@ Successive Averages (Powell and Sheffi, 1982) with weight gamma_t = t^-0.6.
 
     Step 4  Average       y^{t+1} = (1 - gamma_t) y^t + gamma_t y~^t; stop on rho.
 
-Existence of the fixed point is Theorem 3. Convergence is not established
-there, so this module reports the residual trajectory rather than asserting it.
+Existence of the fixed point parallels Theorem 3, which the draft states for
+P2. Convergence is not established there, so this module reports the
+residual trajectory rather than asserting it.
 
 Requires: numpy, scipy, and `algorithm1_p1.py` in the same directory.
 
@@ -289,7 +292,7 @@ class P1FixedPriceSolution:
 
 
 # ----------------------------------------------------------------------------
-# Algorithm 1'
+# P1 fixed-price solver
 # ----------------------------------------------------------------------------
 
 def solve_p1_fixed_price(
@@ -302,7 +305,7 @@ def solve_p1_fixed_price(
     y_init: Optional[np.ndarray] = None,
     verbose: bool = False,
 ) -> P1FixedPriceSolution:
-    """Algorithm 1'.
+    """P1 fixed-price solver.
 
     Parameters
     ----------

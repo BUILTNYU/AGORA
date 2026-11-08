@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-IO2 sampling sweep runner (Algorithm 4 on the LIRR access network).
+Sampling sweep runner for the earlier cycle-projection estimator of IO1
+(algorithm3_blocks.py; "Algorithm 4" for "IO2" in earlier drafts) on the LIRR
+access network. The paper's Algorithm 3 is run by qp/run_qp_sweep.py instead.
 
-Runs Algorithm 4 over a grid of (seed, sampling rate), writes one metrics row
+Runs the estimator over a grid of (seed, sampling rate), writes one metrics row
 per case to a CSV after every case, and can resume an interrupted sweep.
 
     python3 lirr_bench.py                       # 5 seeds x 3 rates, defaults below

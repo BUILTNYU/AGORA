@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 """Step 7 and step 8 at the scheduled inactive-cell weights, resumable.
 
+Step numbers here are those of the earlier cycle-projection estimator
+(algorithm3_blocks.py); step 7 corresponds to step 5 of the paper's
+Algorithm 3, which qp/run_qp_sweep.py runs.
+
 Runs, for every (seed, rate) in the results file:
     step 6  re-solved with the hinge at the scheduled theta_V (algorithm3_refit)
     step 7  Algorithm 2' at the fixed observed fares, 40 iterations

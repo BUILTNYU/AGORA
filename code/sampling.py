@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Deterministic observation-set draws for the IO2 sampling experiment.
+Deterministic observation-set draws for the IO1 sampling experiment ("IO2" in
+earlier drafts).
 
 Every draw is reproduced exactly from (design, rate, rep), so the package
 ships seeds and this module rather than 480 materialised observation files.

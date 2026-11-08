@@ -3,9 +3,10 @@
 """Can the inactive-cell information be used WITHOUT retaining the potentials?
 
 Rosenblad, Lin and Yin (2026) keep the OD potentials as free parameters and add
-a squared-hinge penalty on the inactive-link inequality. Algorithm 3 eliminates
-the potentials by cycle projection, which is what makes the LIRR instance
-tractable, and the draft therefore says the zero restrictions "would require
+a squared-hinge penalty on the inactive-link inequality. The earlier
+cycle-projection estimator (algorithm3_blocks.py) eliminates the potentials,
+which is what made the LIRR instance tractable, and an earlier draft therefore
+said the zero restrictions "would require
 retaining mu" and demotes them to a post-estimation check (step 8).
 
 That is not quite right. For an inactive cell (i,a) whose endpoints are joined

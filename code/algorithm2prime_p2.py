@@ -1,11 +1,12 @@
 """
-Algorithm 3' - Solution to the aggregate network assignment game P2 (PURC-based
-link formulation) with fixed (administered) prices tau0.
+Algorithm 2' (AGORA-F) - Solution to P2 (the PURC-based link formulation of the
+aggregate network assignment game) with fixed (administered) prices tau0.
 
-As in Algorithm 1', at an administered fare tau0 the market need not clear, so
-Eq. (51) is carried explicitly rather than dualized and travelers face the
+As in the P1 fixed-price solver (p1_fixed_price.py), at an administered fare
+tau0 the market need not clear, so the link market-clearing constraint
+Eq. (41) is carried explicitly rather than dualized and travelers face the
 effective price tau0_ma + sigma_a with the rationing price sigma_a >= 0. Unlike
-Algorithm 1', the node potentials u have no closed form and enter the buyer step
+the P1 solver, the node potentials u have no closed form and enter the buyer step
 as free variables alongside sigma.
 
     Step 1  Initialize    y^1 from the seller step at L == 1; u from a
@@ -23,7 +24,7 @@ as free variables alongside sigma.
               dD'/du_in    = -eta_in ,
               dD'/dsigma_a = y^t_a - f_a .
 
-    Step 3  Seller step   identical to Algorithm 1' step 3, at the load factors
+    Step 3  Seller step   as step 3 of p1_fixed_price.py, at the load factors
                           L^t_ma = min(1, f^t_a / y^t_ma) with f^t_a = sum_i f_ia.
 
     Step 4  Average       y^{t+1} = (1 - gamma_t) y^t + gamma_t y~^t; stop on rho.
@@ -32,8 +33,8 @@ Existence of the fixed point is Theorem 3; convergence is not established there,
 so this module reports the residual trajectory rather than asserting it.
 
 ON THE SIGN OF psi. The grouping -( u_{i,t(a)} - u_{i,h(a)} ) is as the draft
-has it in step 2 here and throughout Section 3.3, and is what the Lagrangian of
-Eq. (50) produces.
+has it in step 2 here and throughout Section 3.2, and is what the Lagrangian of
+P2 produces (Eq. (47)).
 
 NOTE ON STEP 1. The draft writes the shortest-path pass as being on
 "-phi_ia - tau0_ma". The arc cost of the negated net surplus is
@@ -42,7 +43,9 @@ NOTE ON STEP 1. The draft writes the shortest-path pass as being on
 Requires: numpy, scipy, and `algorithm1_p1.py`, `p1_fixed_price.py`,
 `algorithm2_p2.py` in the same directory.
 
-Reference: Chow (2026), Section 3.3.
+Reference: Chow (2026), Section 3.2, Algorithm 2'. Equation numbers in this
+header follow the current draft; those in the comments below may follow an
+earlier draft.
 """
 
 from __future__ import annotations
@@ -69,7 +72,7 @@ from algorithm2_p2 import (
 
 
 # ----------------------------------------------------------------------------
-# Step 3: seller step (Algorithm 1' step 3, on P2 indexing)
+# Step 3: seller step (step 3 of p1_fixed_price.py, on P2 indexing)
 # ----------------------------------------------------------------------------
 
 def seller_step(
@@ -77,7 +80,7 @@ def seller_step(
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Step 3. Per-operator capped entropic allocation at margins tau0*L - c.
 
-    Identical to step 3 of Algorithm 1'; only the owner map differs, since P2
+    Identical to step 3 of p1_fixed_price.py; only the owner map differs, since P2
     indexes tau, pi over `inst.owned_idx` rather than over all links.
     Returns (y_tilde, y_idle_tilde, pi, v).
     """
@@ -188,7 +191,7 @@ def buyer_step(
     def fun_grad(z: np.ndarray) -> Tuple[float, np.ndarray]:
         u, sigma = unpack(z)
         # The effective price tau0 + sigma enters exactly where tau does in
-        # Algorithm 3, so the Eq. (57) loading is reused unchanged.
+        # Algorithm 2, so the Eq. (57) loading is reused unchanged.
         _, f_link, eta, _, quad = buyer_loading(inst, u, tau0 + sigma)
         # Eq. (60) linear term is sum_i sum_n D_i b_in u_in; D_i u_{i,o_i} is
         # equivalent only for single-origin segments, and otherwise disagrees
@@ -325,7 +328,7 @@ class P2FixedPriceSolution:
 
 
 # ----------------------------------------------------------------------------
-# Algorithm 3'
+# Algorithm 2'
 # ----------------------------------------------------------------------------
 
 def _supply_weighted_u(inst, u):
@@ -349,7 +352,7 @@ def solve_p2_fixed_price(
     y_init: Optional[np.ndarray] = None,
     verbose: bool = False,
 ) -> P2FixedPriceSolution:
-    """Algorithm 3'.
+    """Algorithm 2'.
 
     Parameters
     ----------
@@ -529,7 +532,7 @@ if __name__ == "__main__":
     print("    f_a - y_ma =", np.round(f1 - y1, 1),
           " [Section 4 reports -487.7, +109.6, +363.0, +288.5]")
 
-    # Pricing wedge against the clearing solution of Algorithm 3.
+    # Pricing wedge against the clearing solution of Algorithm 2.
     from algorithm2_p2 import solve_p2
 
     star = solve_p2(inst)

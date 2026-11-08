@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 """Step 9 and the deadweight loss at the scheduled inactive-cell weights.
 
+Step numbers here are those of the earlier cycle-projection estimator
+(algorithm3_blocks.py); this step corresponds to step 6 of the paper's
+Algorithm 3, which qp/run_qp_sweep.py runs.
+
 Reads G(tau0) at the new estimate from the step-7 pass, so run
 run_steps_7_8.py FIRST. Both sides of the difference use the same formula,
 

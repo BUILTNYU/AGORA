@@ -1,8 +1,8 @@
 """
-Algorithm 3 - L-BFGS-B dual solution of the PURC-based link formulation of the
-aggregate network assignment game P2.
+Algorithm 2 (AGORA-F) - L-BFGS-B for dual solution of P2, the PURC-based link
+formulation of the aggregate network assignment game.
 
-Solves the dual of Eq. (59) over free node potentials u and the box tau >= 0,
+Solves the dual of P2, Eq. (50), over free node potentials u and the box tau >= 0,
 pi >= 0:
 
     min_{u, tau >= 0, pi >= 0}  D'(u, tau, pi)
@@ -24,13 +24,13 @@ and gradients
     dD'/dpi_ma   = Cmax_ma - y_ma ,
 
 where eta_in = sum_{a:t(a)=n} f_ia - sum_{a:h(a)=n} f_ia - D_i b_in is the node
-flow residual. Link flows come from Eq. (57), capacities from Eq. (33), v* from
-Eq. (32). Convergence is monitored by Eq. (38a).
+flow residual. Link flows come from Eq. (48), service capacities from Eq. (49a),
+and v* from step 3 of Algorithm 2. Convergence is monitored by Eq. (38a).
 
 ON THE SIGN OF psi. The grouping in psi_ia is as the draft has it throughout:
-relaxing the conservation constraint of Eq. (50) contributes -u_{i,t(a)} +
-u_{i,h(a)} to dL'/df_ia, matching the notation block, Eq. (56), Eq. (57),
-Eq. (58) and Eq. (59). Note that -(u_{i,t(a)} - u_{i,h(a)}) is authored as an
+relaxing the conservation constraint of Eq. (40) contributes -u_{i,t(a)} +
+u_{i,h(a)} to dL'/df_ia, matching the notation block and Eqs. (47),
+(48), (49) and (50). Note that -(u_{i,t(a)} - u_{i,h(a)}) is authored as an
 OMML delimiter object, so plain-text extraction of the .docx drops the
 parentheses and makes it read as "- u_{i,t(a)} - u_{i,h(a)}". That is an
 artifact of extraction, not of the draft.
@@ -44,7 +44,9 @@ solution.
 
 Requires: numpy, scipy, and `algorithm1_p1.py` in the same directory.
 
-Reference: Chow (2026), Section 3.3.
+Reference: Chow (2026), Section 3.2, Algorithm 2. Equation numbers in this
+header follow the current draft; those in the comments below may follow an
+earlier draft.
 """
 
 from __future__ import annotations
@@ -568,7 +570,7 @@ class P2Solution:
 
 
 # ----------------------------------------------------------------------------
-# Algorithm 3
+# Algorithm 2
 # ----------------------------------------------------------------------------
 
 def solve_p2(
@@ -582,7 +584,7 @@ def solve_p2(
     pi0: Optional[np.ndarray] = None,
     verbose: bool = False,
 ) -> P2Solution:
-    """Algorithm 3. L-BFGS-B on the dual of Eq. (59).
+    """Algorithm 2. L-BFGS-B on the dual of Eq. (59).
 
     Parameters
     ----------

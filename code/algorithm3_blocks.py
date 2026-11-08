@@ -1,6 +1,11 @@
 """
-Algorithm 4 - Cycle-projected solution of the inverse PURC link-flow aggregate
-network assignment game IO2.
+Cycle-projected solution of the inverse PURC link-flow aggregate network
+assignment game IO1 ("Algorithm 4" for "IO2" in earlier drafts).
+
+This is NOT the paper's Algorithm 3, which is qp/run_qp_sweep.py (see
+MAPPING.md). Algorithm 3 imports this module's seller block and data loading,
+and this module is the original implementation of the "Projection (R only)"
+ablation arm. Equation and remark numbers below follow the earlier draft.
 
 The buyer stationarity condition of Eq. (57) carries one node potential
 difference per cell,
@@ -22,17 +27,17 @@ regularization repairs it.
 
     Step 1  Preprocess       partition A+ / A0, fix the rents of Eq. (41),
                              load factors, idle stock, weights, sigma^0 = 0.
-    Step 2  Seller block     identical to step 2 of Algorithm 2.
+    Step 2  Seller block     the seller QP (step 2 of the paper's Algorithm 3).
     Step 3  Cycle projection spanning forest per segment by union-find; one row
                              per non-forest edge.
     Step 4  Identification   rank test on [C Z, -C p].
     Step 5  Buyer block      bound-constrained least squares in Theta.
-    Step 6  Fixed-price      Algorithm 3' at the estimated primitives returns
+    Step 6  Fixed-price      Algorithm 2' at the estimated primitives returns
                              u, y, sigma~^r and every f_ia.
     Step 7  Support check    fraction of cells in V with psi_ia > 0.
     Step 8  Average and test sigma^r = (1 - gamma_r) sigma^{r-1} + gamma_r
                              sigma~^r, gamma_r = r^-0.6.
-    Step 9  Clearing         Algorithm 3 for tau* and the wedge Delta.
+    Step 9  Clearing         Algorithm 2 for tau* and the wedge Delta.
 
 Step 5 is consistent for Theta but not efficient: the residuals of Eq. (60) are
 heteroskedastic with variance l_a / (D_i^2 f*_ia) under Assumption 4, and the
@@ -42,7 +47,7 @@ Remark 10.
 Requires: numpy, scipy, and `algorithm2_p2.py` and `algorithm2prime_p2.py` in
 the same directory.
 
-Reference: Chow (2026), Section 4.2.
+Reference: Chow (2026), Sections 3.3 and 4.2.
 """
 
 from __future__ import annotations
@@ -119,12 +124,12 @@ class IO2Solution:
     pi: np.ndarray
     alpha_B: float
     alpha_S: float
-    u: np.ndarray              # (Q, V) node potentials from Algorithm 3'
+    u: np.ndarray              # (Q, V) node potentials from Algorithm 2'
     v: np.ndarray              # (M,)
     f_seg: np.ndarray          # (Q, A) fitted flows, incl. unsampled cells
     sigma: np.ndarray          # (A_own,)
     phi: np.ndarray            # (Q, A) fitted link surpluses
-    tau_star: np.ndarray       # (A_own,) clearing prices from Algorithm 3
+    tau_star: np.ndarray       # (A_own,) clearing prices from Algorithm 2
     wedge: np.ndarray          # (A_own,) Delta_ma
     cycle_rank: np.ndarray     # (Q,) independent cycles per segment
     design_rank: int           # rank of [C Z, -C p]
@@ -174,7 +179,7 @@ class IO2Solution:
 
 
 # ----------------------------------------------------------------------------
-# Step 2: seller block (identical to Algorithm 2)
+# Step 2: seller block (step 2 of the paper's Algorithm 3)
 # ----------------------------------------------------------------------------
 
 def seller_block(inst, data, rho_c, rho_pi, eps_scale):
@@ -646,7 +651,7 @@ def buyer_block(
 
 
 # ----------------------------------------------------------------------------
-# Algorithm 4
+# Cycle-projection estimator
 # ----------------------------------------------------------------------------
 
 def solve_io2(
@@ -674,7 +679,7 @@ def solve_io2(
     verbose: bool = False,
     trace_hook: Optional[Callable[[dict], None]] = None,
 ) -> IO2Solution:
-    """Algorithm 4.
+    """Cycle-projection estimator of IO1 (not the paper's Algorithm 3).
 
     Parameters
     ----------
@@ -868,7 +873,7 @@ def solve_io2(
         if inst.avail is not None:
             phi = np.where(inst.avail, phi, 0.0)
 
-        # --- Step 6. Fixed-price allocation via Algorithm 3' ----------------
+        # --- Step 6. Fixed-price allocation via Algorithm 2' ----------------
         est = P2Instance(
             tail=inst.tail, head=inst.head, link_owner=inst.link_owner,
             n_nodes=inst.n_nodes, D=inst.D, origin=inst.origin, sink=inst.sink,
@@ -878,7 +883,7 @@ def solve_io2(
             operator_names=inst.operator_names, node_names=inst.node_names,
             outside_link=inst.outside_link, b_supply=inst.b_supply,
         )
-        # Step 6's inner MSA loop dominates Algorithm 4's cost: at the
+        # Step 6's inner MSA loop dominates the cycle-projection estimator's cost: at the
         # estimated phi it does not converge as readily as at the true
         # parameters, so it runs to its cap every outer iteration.  The outer
         # sigma loop averages across iterations anyway, so an inexact inner
@@ -971,7 +976,7 @@ def solve_io2(
     )
     # Step 9 supplies tau* and the wedge only; the flow-fit and GS-at-tau^0
     # metrics do not depend on it, and the clearing solve is the single most
-    # expensive call in Algorithm 4.  skip_clearing lets a sweep defer it and
+    # expensive call in the cycle-projection estimator.  skip_clearing lets a sweep defer it and
     # compute tau* once per sampling rate instead of once per (seed, rate).
     if skip_clearing:
         tau_star = np.full_like(data.tau0, np.nan)
@@ -1018,7 +1023,7 @@ def toy_link_features(inst: P2Instance) -> np.ndarray:
 
 
 def toy_data(inst: P2Instance, tau0: np.ndarray, seed: int = 20260826) -> IO2Data:
-    """Ground truth from Algorithm 3' at the administered fares tau0."""
+    """Ground truth from Algorithm 2' at the administered fares tau0."""
     rng = np.random.default_rng(seed)
     truth = solve_p2_fixed_price(inst, tau0, tol=1e-9)
     return IO2Data(

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""One-shot IO2: estimate (thetat, sigma) by a single least squares, no outer loop.
+"""One-shot cycle-projection estimator of IO1 ("IO2" in earlier drafts): estimate
+(thetat, sigma) by a single least squares, no outer loop.
+
+This is NOT the paper's Algorithm 3, which is qp/run_qp_sweep.py (see
+MAPPING.md). Algorithm 3 calls estimate_case() here only for its steps 1-3
+(preprocessing, seller block, binding set) and discards the theta and sigma
+estimated below.
 
 WHY THIS REPLACES THE OUTER LOOP
 --------------------------------
