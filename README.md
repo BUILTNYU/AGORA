@@ -1,17 +1,24 @@
-# Inverse Aggregate Network Assignment Game: code and data (service-based LIRR instance)
+# AGORA: Aggregate Game Of Route Assignment
 
-This is the reference implementation for Chow (2026), *Inverse Aggregate Network Assignment Game*. The LIRR instance now uses **service-based capacity**: LIRR seats are deployed on train services, and the instance has **two supply scales**. Every LIRR result must be rerun on this instance. It supersedes `angag_release_2026.zip` (the 1.6× link-capacity instance) and `angag_release.zip`.
+AGORA is the reference implementation for Chow (2026), *Inverse Aggregate Network Assignment Game*. In the game, travelers (buyers) assign their trips over a network, and operators (sellers) choose capacity and prices on it. AGORA has three codes:
+
+| Code | What it does | Where |
+|---|---|---|
+| **AGORA-F** (Forward) | Solves the game: flows, capacities and clearing prices. Algorithms 1, 2 and 2′. | `code/` |
+| **AGORA-I** (Inverse) | Estimates the hidden parameters (α_S, c_idle, station constants) from observed data. The IO1 blocks. | `code/`, `pipeline/` |
+| **AGORA-Q** (QP) | The single-buyer quadratic program. Algorithm 3. | `qp_sweep_svc/` |
+
+The LIRR instance now uses **service-based capacity**: LIRR seats are deployed on train services, and the instance has **two supply scales**. Every LIRR result must be rerun on this instance. It supersedes `angag_release_2026.zip` (the 1.6× link-capacity instance) and `angag_release.zip`.
 
 ```
-code/       Algorithms 1, 2, 2', the IO1 blocks, the LIRR harness (lirr_bench.py), verify_toy.py
-data/toy/   the three-node toy network of Section 4.1 (unchanged)
-data/lirr/  the LIRR access network instance of Section 4.2 (rebuilt)
-pipeline/   the instance-construction pipeline (see pipeline/README.md)
+code/          AGORA-F (Algorithms 1, 2, 2'), AGORA-I (the IO1 blocks), the LIRR harness (lirr_bench.py), verify_toy.py
+qp_sweep_svc/  AGORA-Q (Algorithm 3, run from run_qp_sweep.py; see the README there)
+data/toy/      the three-node toy network of Section 4.1 (unchanged)
+data/lirr/     the LIRR access network instance of Section 4.2 (rebuilt)
+pipeline/      the instance-construction pipeline (see pipeline/README.md)
 ```
 
-The new Algorithm 3 (the single buyer QP) runs from `run_qp_sweep.py` in the `qp_sweep_svc` folder; see the README there.
-
-Requirements: Python 3.10+, numpy, scipy and pandas. The QP also needs cvxpy with CLARABEL.
+Requirements: Python 3.10+, numpy, scipy and pandas. AGORA-Q also needs cvxpy with CLARABEL.
 
 ## What changed from `angag_release_2026`
 
@@ -23,7 +30,7 @@ Requirements: Python 3.10+, numpy, scipy and pandas. The QP also needs cvxpy wit
 
 Each service's margin is the sum of its link margins: ω_r = Σ_a H_ar (τ_a − c_a − κ_a) − π_r. Shared links carry a track cap, (HY)_a ≤ C^max_a, with multiplier κ_a.
 
-The service form is implemented throughout: in Algorithm 2's dual, in Algorithm 2′'s seller step (with an inner dual over κ when there are track caps) and in the IO1 seller block. With `H` omitted, H = I and the code is the link model. The toy network uses H = I, and `verify_toy.py` reproduces 13 of 13 values.
+The service form is implemented throughout: in AGORA-F (Algorithm 2's dual, and Algorithm 2′'s seller step, with an inner dual over κ when there are track caps) and in AGORA-I's IO1 seller block. With `H` omitted, H = I and the code is the link model. The toy network uses H = I, and `verify_toy.py` reproduces 13 of 13 values.
 
 **Why.** In the link model the operator ranks links by their own fare margin. A short trunk link shared by every Main Line rider then earns a tiny link fare, so it is starved of capacity. At the timetabled budget this rationed the trunk and cut rail ridership to 40k. The 1.6× budget of `angag_release_2026` papered over this.
 
@@ -40,7 +47,7 @@ The service form is implemented throughout: in Algorithm 2's dual, in Algorithm 
 - **Why one scale fails.** A single α_S cannot fit both rail and feeders. At α_S = 0.25, LOCAL spreads its budget almost evenly over 2,013 feeder links, and subway egress capacity falls from 25.6k to 2.1k. At α_S ≥ 2, the rail branch fit breaks down: Greenport and Montauk get no seats.
 - **Why PARK shares LOCAL's scale.** 94 of PARK's 97 lots sit at their cap, so PARK carries almost no information about its own scale.
 
-The seller block estimates one α_S per group and is still a convex QP. At full observation it recovers (0.25, 4.00) exactly when ρ_π = 1e-3, and (0.25, 3.98) at the default ρ_π = 1.
+AGORA-I's seller block estimates one α_S per group and is still a convex QP. At full observation it recovers (0.25, 4.00) exactly when ρ_π = 1e-3, and (0.25, 3.98) at the default ρ_π = 1.
 
 ### 3. Supply data
 
@@ -104,13 +111,13 @@ Unchanged: the network and demand (897 nodes, 8,320 links, 6 destination segment
 ## Verification
 
 - **Toy.** `verify_toy.py`: 13 of 13 reported values are reproduced. The toy also reproduces with α_S given as an array (0.8, 0.8): τ is identical and W* = −10,038.82.
-- **Two scales on the toy.** With α_S = (0.6, 2.5), Algorithm 2 converges to a natural residual of 8e-10. The seller block at full observation returns (0.6000, 2.4999). Forcing one group returns 1.88.
+- **Two scales on the toy.** With α_S = (0.6, 2.5), AGORA-F's Algorithm 2 converges to a natural residual of 8e-10. The seller block at full observation returns (0.6000, 2.4999). Forcing one group returns 1.88.
 - **Ground truth is an exact P2 point** (`pipeline/check_truth.py`):
   - **Buyer.** Re-solving the buyer at the stored y gives flows within 5e-8 (relative L1) and σ within 4e-9.
   - **Seller.** Re-solving the seller at the stored load factors gives Y within 8e-7.
   - **Feasibility.** The track caps hold to 5e-4.
 - **Binding set.** 𝒮 = {f⁰ ≥ y⁰(1 − 1e-5)} has 59 links and equals {σ > 0}.
-- **Seller block** (`pipeline/check_seller.py`). At full observation with the c prior at the truth, it returns α_S = (0.25, 3.98) and c_idle exact at ρ_π = 1, and recovers everything exactly at ρ_π = 1e-3.
+- **AGORA-I seller block** (`pipeline/check_seller.py`). At full observation with the c prior at the truth, it returns α_S = (0.25, 3.98) and c_idle exact at ρ_π = 1, and recovers everything exactly at ρ_π = 1e-3.
 
 ## Data provenance
 
